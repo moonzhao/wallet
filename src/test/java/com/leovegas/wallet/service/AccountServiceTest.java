@@ -34,7 +34,7 @@ class AccountServiceTest {
         // given
         String accountId = "2";
         double expectBalance = 300;
-        AccountEntity accountEntity = new AccountEntity(accountId, expectBalance);
+        AccountEntity accountEntity = new AccountEntity(accountId, expectBalance, null);
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(accountEntity));
 
         // when

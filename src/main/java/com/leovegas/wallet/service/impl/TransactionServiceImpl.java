@@ -62,8 +62,23 @@ public class TransactionServiceImpl implements TransactionService {
         if (accountOptional.isEmpty()) {
             throw new AccountNotExistException(ErrorMessages.NO_ACCOUNT_FOUND.getErrorMessage());
         }
+        var transactionEntities = accountOptional.get().getTransactions();
+        return transactionEntities.stream()
+                .filter(t -> t.getTransactionTime().isAfter(historySearchDto.getBegin().atStartOfDay()))
+                .filter(t -> t.getTransactionTime().isBefore(historySearchDto.getEnd().atStartOfDay()))
+                .map(Transaction::toTransaction)
+                .collect(Collectors.toList());
+    }
+
+    //@Override
+    public List<Transaction> getTransactionHistory2(HistorySearchDto historySearchDto) {
+        String accountId = historySearchDto.getAccountId();
+        var accountOptional = accountRepository.findById(accountId);
+        if (accountOptional.isEmpty()) {
+            throw new AccountNotExistException(ErrorMessages.NO_ACCOUNT_FOUND.getErrorMessage());
+        }
         var transactionEntities = transactionRepository.findTransactionsHistory(accountId,
-                historySearchDto.getBegin(), historySearchDto.getEnd());
+                historySearchDto.getBegin().toString(), historySearchDto.getEnd().toString());
         return transactionEntities.stream()
                 .map(Transaction::toTransaction)
                 .collect(Collectors.toList());

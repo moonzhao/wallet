@@ -1,5 +1,6 @@
 package com.leovegas.wallet.model.dto;
 
+import com.leovegas.wallet.model.entity.AccountEntity;
 import com.leovegas.wallet.model.entity.TransactionEntity;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class TransactionDto {
     public TransactionEntity toTransactionEntity() {
         return TransactionEntity.builder()
                 .id(transactionId)
-                .accountId(accountId)
+                .account(new AccountEntity(accountId))
                 .amount(amount)
                 .transactionTime(LocalDateTime.now())
                 .build();

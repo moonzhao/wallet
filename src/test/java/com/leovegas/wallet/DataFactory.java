@@ -2,7 +2,11 @@ package com.leovegas.wallet;
 
 import com.leovegas.wallet.model.dto.HistorySearchDto;
 import com.leovegas.wallet.model.dto.TransactionDto;
+import com.leovegas.wallet.model.entity.AccountEntity;
 import com.leovegas.wallet.model.entity.TransactionEntity;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DataFactory {
 
@@ -22,14 +26,17 @@ public class DataFactory {
     public static HistorySearchDto getDummyHistorySearchDto() {
         HistorySearchDto searchDao = new HistorySearchDto();
         searchDao.setAccountId(ACCOUNT_ID);
+        searchDao.setBegin(LocalDate.of(1970, 1, 1));
+        searchDao.setEnd(LocalDate.now());
         return searchDao;
     }
 
     public static TransactionEntity getDummyTransaction() {
         return TransactionEntity.builder()
                 .id(TRANSACTION_ID)
-                .accountId(ACCOUNT_ID)
+                .account(new AccountEntity(ACCOUNT_ID))
                 .amount(LOW_AMOUNT)
+                .transactionTime(LocalDateTime.now().minusDays(1))
                 .build();
     }
 }

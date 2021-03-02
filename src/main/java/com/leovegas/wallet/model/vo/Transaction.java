@@ -18,7 +18,7 @@ public class Transaction {
 
     public static Transaction toTransaction(TransactionEntity entity) {
         return Transaction.builder()
-                .accountId(entity.getAccountId())
+                .accountId(entity.getAccount().getId())
                 .action(entity.getAction())
                 .amount(entity.getAmount())
                 .transactionTime(WalletUtils.formatDateTime(entity.getTransactionTime()))

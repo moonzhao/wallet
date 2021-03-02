@@ -42,7 +42,7 @@ class TransactionServiceTest {
     void debitSuccess() {
         // given
         var transactionDto = DataFactory.getDummyTransactionDto(DataFactory.LOW_AMOUNT);
-        var account = new AccountEntity(transactionDto.getAccountId(), DataFactory.HIGH_AMOUNT);
+        var account = new AccountEntity(transactionDto.getAccountId(), DataFactory.HIGH_AMOUNT, null);
         when(accountRepository.findAccountByIdWithPessimisticLock(anyString())).thenReturn(Optional.of(account));
         when(transactionRepository.findById(anyString())).thenReturn(Optional.empty());
 
@@ -89,7 +89,7 @@ class TransactionServiceTest {
     void creditSuccess() {
         // given
         var transactionDto = DataFactory.getDummyTransactionDto(DataFactory.LOW_AMOUNT);
-        var account = new AccountEntity(transactionDto.getAccountId(), DataFactory.HIGH_AMOUNT);
+        var account = new AccountEntity(transactionDto.getAccountId(), DataFactory.HIGH_AMOUNT, null);
         when(accountRepository.findAccountByIdWithPessimisticLock(anyString())).thenReturn(Optional.of(account));
         when(transactionRepository.findById(anyString())).thenReturn(Optional.empty());
 
@@ -137,9 +137,8 @@ class TransactionServiceTest {
         // given
         var historySearchDto = DataFactory.getDummyHistorySearchDto();
         List<TransactionEntity> expectTransactions = List.of(DataFactory.getDummyTransaction());
-        var account = new AccountEntity(historySearchDto.getAccountId(), DataFactory.HIGH_AMOUNT);
+        var account = new AccountEntity(historySearchDto.getAccountId(), DataFactory.HIGH_AMOUNT, expectTransactions);
         when(accountRepository.findById(anyString())).thenReturn(Optional.of(account));
-        when(transactionRepository.findTransactionsHistory(any(), any(), any())).thenReturn(expectTransactions);
 
         // when
         List<Transaction> transactions = transactionService.getTransactionHistory(historySearchDto);

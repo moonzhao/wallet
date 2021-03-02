@@ -1,10 +1,11 @@
 package com.leovegas.wallet.model.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
@@ -17,7 +18,10 @@ public class TransactionEntity {
 
     @Id
     private String id;
-    private String accountId;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    @JoinColumn(name="accountId")
+    private AccountEntity account;
     private String action;
     private double amount;
     private LocalDateTime transactionTime;
