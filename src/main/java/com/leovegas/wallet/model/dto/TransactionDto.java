@@ -1,5 +1,6 @@
 package com.leovegas.wallet.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.leovegas.wallet.model.entity.AccountEntity;
 import com.leovegas.wallet.model.entity.TransactionEntity;
 import lombok.Builder;
@@ -14,10 +15,15 @@ import java.time.LocalDateTime;
 @Builder
 public class TransactionDto {
 
+    @JsonProperty(required = true)
     @NotBlank(message = "transactionId is mandatory")
     private String transactionId;
+
+    @JsonProperty(required = true)
     @NotBlank(message = "accountId is mandatory")
     private String accountId;
+
+    @JsonProperty(required = true)
     @NotNull(message = "amount is mandatory")
     @Min(value = 0L, message = "The value must be positive")
     private double amount;
